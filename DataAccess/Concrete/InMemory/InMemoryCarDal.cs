@@ -3,6 +3,7 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace DataAccess.Concrete.InMemory
@@ -10,8 +11,6 @@ namespace DataAccess.Concrete.InMemory
     public class InMemoryCarDal : ICarDal
     {
         List<Car> _cars;
-        List<Color> _colors;
-        List<Brand> _brands;
         public InMemoryCarDal()
         {
             _cars = new List<Car>
@@ -21,26 +20,6 @@ namespace DataAccess.Concrete.InMemory
                 new Car { ID = 3, BrandID = 3, ColorID = 3, ModelYear = 2016, DailyPrice = 250, Description = "Jetta 1.4 TSI" },
                 new Car { ID = 4, BrandID = 5, ColorID = 1, ModelYear = 2017, DailyPrice = 300, Description = "Focus 1.5 TDCi" },
                 new Car { ID = 5, BrandID = 6, ColorID = 1, ModelYear = 2021, DailyPrice = 1200, Description = "WRX STI 2.5" }
-            };
-
-            _colors = new List<Color>
-            {
-                new Color { ColorID = 1, ColorName = "Red" },
-                new Color { ColorID = 2, ColorName = "Green" },
-                new Color { ColorID = 3, ColorName = "Blue" },
-                new Color { ColorID = 4, ColorName = "Black" },
-                new Color { ColorID = 5, ColorName = "White" },
-                new Color { ColorID = 6, ColorName = "Metallic Grey" },
-            };
-
-            _brands = new List<Brand>
-            {
-                new Brand { BrandID = 1, BrandName = "Renault" },
-                new Brand { BrandID = 2, BrandName = "Fiat" },
-                new Brand { BrandID = 3, BrandName = "Volkswagen" },
-                new Brand { BrandID = 4, BrandName = "Toyota" },
-                new Brand { BrandID = 5, BrandName = "Ford" },
-                new Brand { BrandID = 6, BrandName = "Subaru" },
             };
         }
 
@@ -82,21 +61,31 @@ namespace DataAccess.Concrete.InMemory
             }
         }
 
+        public Car Get(Expression<Func<Car, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<CarDto> GetAll()
         {
             var cars = from c in _cars
-                       join b in _brands on c.BrandID equals b.BrandID
-                       join cl in _colors on c.ColorID equals cl.ColorID
+                       //join b in _brands on c.BrandID equals b.BrandID
+                       //join cl in _colors on c.ColorID equals cl.ColorID
                        select new CarDto
                        {
                            ID = c.ID,
-                           BrandName = b.BrandName,
-                           ColorName = cl.ColorName,
+                           //BrandName = b.BrandName,
+                           //ColorName = cl.ColorName,
                            DailyPrice = c.DailyPrice,
                            ModelYear = c.ModelYear,
                            Description = c.Description,
                        };
             return cars.ToList();
+        }
+
+        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
+        {
+            throw new NotImplementedException();
         }
 
         public Car GetByID(int ID)
