@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,13 +24,17 @@ namespace Business.Concrete
 
         public void Add(Car car)
         {
-            if (car.DailyPrice > 0)
+            if (car.DailyPrice <= 0)
             {
-                _carDal.Add(car);
+                Console.WriteLine("Araba eklenemedi! Arabanin gunluk fiyati 0'dan buyuk olmalidir!");
+            }
+            else if (car.CarName.Length < 3)
+            {
+                Console.WriteLine("Aracin ismi 3 karakterden kisa olamaz!");
             }
             else
             {
-                Console.WriteLine("Araba eklenemedi! Arabanin gunluk fiyati 0'dan buyuk olmalidir!");
+                _carDal.Add(car);
             }
 
         }
@@ -68,6 +73,11 @@ namespace Business.Concrete
         public List<Car> GetAllByModelYear(short min, short max)
         {
             return _carDal.GetAll(c => c.ModelYear >= min && c.ModelYear <= max);
+        }
+
+        public List<CarDetailDto> GetCarDetails()
+        {
+            return _carDal.GetCarDetails();
         }
     }
 }

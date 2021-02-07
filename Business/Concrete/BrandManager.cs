@@ -17,14 +17,7 @@ namespace Business.Concrete
         }
         public void Add(Brand brand)
         {
-            if (brand.BrandName.Length > 2)
-            {
-                _brandDal.Add(brand);
-            }
-            else
-            {
-                Console.WriteLine("Markanin ismi 3 karakterden az olamaz!");
-            }
+            _brandDal.Add(brand);
         }
 
         public void Delete(Brand brand)

@@ -14,7 +14,7 @@ namespace ConsoleUI
             BrandManager brandManager = new BrandManager(new EfBrandDal());
             ColorManager colorManager = new ColorManager(new EfColorDal());
 
-            int i = 1;
+            int i;
             Console.WriteLine("==========TUM RENKLER==========");
             foreach (var color in colorManager.GetAll())
             {
@@ -30,13 +30,14 @@ namespace ConsoleUI
 
             Console.WriteLine();
             Console.WriteLine("==========TUM ARACLAR==========");
-            foreach (var car in carManager.GetAll())
+            foreach (var car in carManager.GetCarDetails())
             {
                 Console.WriteLine($"{car.ID}: " +
-                    $"{brandManager.Get(car.BrandID).BrandName} " +
+                    $"{car.BrandName} " +
+                    $"{car.CarName} " +
                     $"{car.Description} " +
                     $"{car.ModelYear} " +
-                    $"{colorManager.Get(car.ColorID).ColorName}: " +
+                    $"{car.ColorName}: " +
                     $"gunluk {car.DailyPrice} TL");
             }
 
@@ -48,6 +49,7 @@ namespace ConsoleUI
                 Console.WriteLine(//$"{car.ID}: " +
                     $"{++i}: " +
                     $"{brandManager.Get(car.BrandID).BrandName} " +
+                    $"{car.CarName} " +
                     $"{car.Description} " +
                     $"{car.ModelYear} " +
                     $"{colorManager.Get(car.ColorID).ColorName}: " +
@@ -62,6 +64,7 @@ namespace ConsoleUI
                 Console.WriteLine(//$"{car.ID}: " +
                     $"{++i}: " +
                     $"{brandManager.Get(car.BrandID).BrandName} " +
+                    $"{car.CarName} " +
                     $"{car.Description} " +
                     $"{car.ModelYear} " +
                     $"{colorManager.Get(car.ColorID).ColorName}: " +
@@ -76,6 +79,7 @@ namespace ConsoleUI
                 Console.WriteLine(//$"{car.ID}: " +
                     $"{++i}: " +
                     $"{brandManager.Get(car.BrandID).BrandName} " +
+                    $"{car.CarName} " +
                     $"{car.Description} " +
                     $"{car.ModelYear} " +
                     $"{colorManager.Get(car.ColorID).ColorName}: " +
@@ -90,6 +94,7 @@ namespace ConsoleUI
                 Console.WriteLine(//$"{car.ID}: " +
                     $"{++i}: " +
                     $"{brandManager.Get(car.BrandID).BrandName} " +
+                    $"{car.CarName} " +
                     $"{car.Description} " +
                     $"{car.ModelYear} " +
                     $"{colorManager.Get(car.ColorID).ColorName}: " +
@@ -97,9 +102,9 @@ namespace ConsoleUI
             }
 
             //// araba ekleme
-            //carManager.Add(new Car() { BrandID = 6, ColorID = 4, DailyPrice = 400, Description = "Outback 2.0 IS", ModelYear = 2017 });
+            //carManager.Add(new Car() { BrandID = 6, ColorID = 4, CarName = "Outback", DailyPrice = 400, Description = "2.0 IS", ModelYear = 2017 });
             //// araba guncelleme
-            //carManager.Update(new Car() { ID = 6, BrandID = 4, ColorID = 5, DailyPrice = 260, Description = "Corolla 1.4 D-4D", ModelYear = 2019 });
+            //carManager.Update(new Car() { ID = 6, BrandID = 4, ColorID = 5, CarName = "Corolla", DailyPrice = 260, Description = "1.4 D-4D", ModelYear = 2019 });
             //// araba silme
             //carManager.Delete(new Car() { ID = 3 });
 
