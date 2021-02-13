@@ -13,6 +13,9 @@ namespace ConsoleUI
             CarManager carManager = new CarManager(new EfCarDal());
             BrandManager brandManager = new BrandManager(new EfBrandDal());
             ColorManager colorManager = new ColorManager(new EfColorDal());
+            UserManager userManager = new UserManager(new EfUserDal());
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
             Console.WriteLine("==========TUM RENKLER==========");
             foreach (var color in colorManager.GetAll().Data)
@@ -39,6 +42,72 @@ namespace ConsoleUI
                     $"{car.ColorName}: " +
                     $"gunluk {car.DailyPrice} TL");
             }
+
+
+
+
+            //userManager.Add(new User() { FirstName = "Rick", LastName="Roe", EMail = "rick@test.com", Password = "testpasswd3"});
+
+
+            Console.WriteLine();
+            Console.WriteLine("==========TUM KULLANICILAR==========");
+            var users = userManager.GetAll();
+            if (users.Success)
+            {
+                foreach (var user in users.Data)
+                {
+                    Console.WriteLine($"{user.ID} " +
+                        $"{user.FirstName} " +
+                        $"{user.LastName} " +
+                        $"{user.EMail}");
+                }
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("==========TUM MUSTERILER==========");
+            var customers = customerManager.GetCustomerDetails();
+            if (customers.Success)
+            {
+                foreach (var customer in customers.Data)
+                {
+                    Console.WriteLine($"{customer.ID} " +
+                        $"{customer.FirstName} " +
+                        $"{customer.LastName} " +
+                        $"{customer.CompanyName} " +
+                        $"{customer.EMail}");
+                }
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("==========TUM KIRALAMALAR==========");
+            var rentals = rentalManager.GetRentalDetails();
+            if (rentals.Success)
+            {
+                foreach (var rental in rentals.Data)
+                {
+                    Console.WriteLine($"{rental.ID} " +
+                        $"{rental.CarName} " +
+                        $"{rental.CustomerFirstName} " +
+                        $"{rental.CustomerLastName} " +
+                        $"{rental.CustomerEMail} " +
+                        $"{rental.CustomerCompanyName} " +
+                        $"{rental.RentDate} " +
+                        $"{rental.ReturnDate}");
+                }
+            }
+
+            //var result = rentalManager.GetAll();
+            //if (result.Success)
+            //{
+            //    foreach (var rental in result.Data)
+            //    {
+            //        Console.WriteLine(rental.CarID);
+            //    }
+            //    Console.WriteLine("True");
+            //}
+
+
+
 
             //int i;
             //i = 0;
