@@ -14,23 +14,22 @@ namespace ConsoleUI
             BrandManager brandManager = new BrandManager(new EfBrandDal());
             ColorManager colorManager = new ColorManager(new EfColorDal());
 
-            int i;
             Console.WriteLine("==========TUM RENKLER==========");
-            foreach (var color in colorManager.GetAll())
+            foreach (var color in colorManager.GetAll().Data)
             {
                 Console.WriteLine($"{color.ColorID}: {color.ColorName}");
             }
 
             Console.WriteLine();
             Console.WriteLine("==========TUM MARKALAR==========");
-            foreach (var brand in brandManager.GetAll())
+            foreach (var brand in brandManager.GetAll().Data)
             {
                 Console.WriteLine($"{brand.BrandID}: {brand.BrandName}");
             }
 
             Console.WriteLine();
             Console.WriteLine("==========TUM ARACLAR==========");
-            foreach (var car in carManager.GetCarDetails())
+            foreach (var car in carManager.GetCarDetails().Data)
             {
                 Console.WriteLine($"{car.ID}: " +
                     $"{car.BrandName} " +
@@ -41,65 +40,66 @@ namespace ConsoleUI
                     $"gunluk {car.DailyPrice} TL");
             }
 
-            i = 0;
-            Console.WriteLine();
-            Console.WriteLine("Gunluk 100 TL ile 250 TL arasindaki araclarimiz:");
-            foreach (var car in carManager.GetAllDailyPrice(100, 250))
-            {
-                Console.WriteLine(//$"{car.ID}: " +
-                    $"{++i}: " +
-                    $"{brandManager.Get(car.BrandID).BrandName} " +
-                    $"{car.CarName} " +
-                    $"{car.Description} " +
-                    $"{car.ModelYear} " +
-                    $"{colorManager.Get(car.ColorID).ColorName}: " +
-                    $"gunluk {car.DailyPrice} TL");
-            }
+            //int i;
+            //i = 0;
+            //Console.WriteLine();
+            //Console.WriteLine("Gunluk 100 TL ile 250 TL arasindaki araclarimiz:");
+            //foreach (var car in carManager.GetAllDailyPrice(100, 250).Data)
+            //{
+            //    Console.WriteLine(//$"{car.ID}: " +
+            //        $"{++i}: " +
+            //        $"{brandManager.Get(car.BrandID).BrandName} " +
+            //        $"{car.CarName} " +
+            //        $"{car.Description} " +
+            //        $"{car.ModelYear} " +
+            //        $"{colorManager.Get(car.ColorID).ColorName}: " +
+            //        $"gunluk {car.DailyPrice} TL");
+            //}
 
-            i = 0;
-            Console.WriteLine();
-            Console.WriteLine("2019-2021 Model Araclarimiz:");
-            foreach (var car in carManager.GetAllByModelYear(2019, 2021))
-            {
-                Console.WriteLine(//$"{car.ID}: " +
-                    $"{++i}: " +
-                    $"{brandManager.Get(car.BrandID).BrandName} " +
-                    $"{car.CarName} " +
-                    $"{car.Description} " +
-                    $"{car.ModelYear} " +
-                    $"{colorManager.Get(car.ColorID).ColorName}: " +
-                    $"gunluk {car.DailyPrice} TL");
-            }
+            //i = 0;
+            //Console.WriteLine();
+            //Console.WriteLine("2019-2021 Model Araclarimiz:");
+            //foreach (var car in carManager.GetAllByModelYear(2019, 2021).Data)
+            //{
+            //    Console.WriteLine(//$"{car.ID}: " +
+            //        $"{++i}: " +
+            //        $"{brandManager.Get(car.BrandID).BrandName} " +
+            //        $"{car.CarName} " +
+            //        $"{car.Description} " +
+            //        $"{car.ModelYear} " +
+            //        $"{colorManager.Get(car.ColorID).ColorName}: " +
+            //        $"gunluk {car.DailyPrice} TL");
+            //}
 
-            i = 0;
-            Console.WriteLine();
-            Console.WriteLine("Kirmizi Renkli Araclarimiz:");
-            foreach (var car in carManager.GetAllByColorID(1))
-            {
-                Console.WriteLine(//$"{car.ID}: " +
-                    $"{++i}: " +
-                    $"{brandManager.Get(car.BrandID).BrandName} " +
-                    $"{car.CarName} " +
-                    $"{car.Description} " +
-                    $"{car.ModelYear} " +
-                    $"{colorManager.Get(car.ColorID).ColorName}: " +
-                    $"gunluk {car.DailyPrice} TL");
-            }
+            //i = 0;
+            //Console.WriteLine();
+            //Console.WriteLine("Kirmizi Renkli Araclarimiz:");
+            //foreach (var car in carManager.GetAllByColorID(1).Data)
+            //{
+            //    Console.WriteLine(//$"{car.ID}: " +
+            //        $"{++i}: " +
+            //        $"{brandManager.Get(car.BrandID).BrandName} " +
+            //        $"{car.CarName} " +
+            //        $"{car.Description} " +
+            //        $"{car.ModelYear} " +
+            //        $"{colorManager.Get(car.ColorID).ColorName}: " +
+            //        $"gunluk {car.DailyPrice} TL");
+            //}
 
-            i = 0;
-            Console.WriteLine();
-            Console.WriteLine("Renault Marka Araclarimiz:");
-            foreach (var car in carManager.GetAllByBrandID(1))
-            {
-                Console.WriteLine(//$"{car.ID}: " +
-                    $"{++i}: " +
-                    $"{brandManager.Get(car.BrandID).BrandName} " +
-                    $"{car.CarName} " +
-                    $"{car.Description} " +
-                    $"{car.ModelYear} " +
-                    $"{colorManager.Get(car.ColorID).ColorName}: " +
-                    $"gunluk {car.DailyPrice} TL");
-            }
+            //i = 0;
+            //Console.WriteLine();
+            //Console.WriteLine("Renault Marka Araclarimiz:");
+            //foreach (var car in carManager.GetAllByBrandID(1).Data)
+            //{
+            //    Console.WriteLine(//$"{car.ID}: " +
+            //        $"{++i}: " +
+            //        $"{brandManager.Get(car.BrandID).BrandName} " +
+            //        $"{car.CarName} " +
+            //        $"{car.Description} " +
+            //        $"{car.ModelYear} " +
+            //        $"{colorManager.Get(car.ColorID).ColorName}: " +
+            //        $"gunluk {car.DailyPrice} TL");
+            //}
 
             //// araba ekleme
             //carManager.Add(new Car() { BrandID = 6, ColorID = 4, CarName = "Outback", DailyPrice = 400, Description = "2.0 IS", ModelYear = 2017 });
