@@ -34,7 +34,7 @@ namespace ConsoleUI
             Console.WriteLine("==========TUM ARACLAR==========");
             foreach (var car in carManager.GetCarDetails().Data)
             {
-                Console.WriteLine($"{car.ID}: " +
+                Console.WriteLine($"{car.CarID}: " +
                     $"{car.BrandName} " +
                     $"{car.CarName} " +
                     $"{car.Description} " +
@@ -45,9 +45,9 @@ namespace ConsoleUI
 
 
 
-
-            //userManager.Add(new User() { FirstName = "Rick", LastName="Roe", EMail = "rick@test.com", Password = "testpasswd3"});
-
+            //userManager.Add(new User() { FirstName = "Nicole", LastName="Draxler", EMail = "NicoleMDrexler@rhyta.com", Password = "testpasswd4"});
+            //customerManager.Add(new Customer() { UserID = 4, CompanyName = "Audio Aid" });
+            //rentalManager.Add(new Rental() { CarID = 1, CustomerID = 2, RentDate = DateTime.Now, ReturnDate = null });
 
             Console.WriteLine();
             Console.WriteLine("==========TUM KULLANICILAR==========");
@@ -56,7 +56,7 @@ namespace ConsoleUI
             {
                 foreach (var user in users.Data)
                 {
-                    Console.WriteLine($"{user.ID} " +
+                    Console.WriteLine($"{user.UserID} " +
                         $"{user.FirstName} " +
                         $"{user.LastName} " +
                         $"{user.EMail}");
@@ -70,7 +70,7 @@ namespace ConsoleUI
             {
                 foreach (var customer in customers.Data)
                 {
-                    Console.WriteLine($"{customer.ID} " +
+                    Console.WriteLine($"{customer.CustomerID} " +
                         $"{customer.FirstName} " +
                         $"{customer.LastName} " +
                         $"{customer.CompanyName} " +
@@ -85,7 +85,7 @@ namespace ConsoleUI
             {
                 foreach (var rental in rentals.Data)
                 {
-                    Console.WriteLine($"{rental.ID} " +
+                    Console.WriteLine($"{rental.RentalID} " +
                         $"{rental.CarName} " +
                         $"{rental.CustomerFirstName} " +
                         $"{rental.CustomerLastName} " +

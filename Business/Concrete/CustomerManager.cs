@@ -29,9 +29,9 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public IDataResult<Customer> Get(int id)
+        public IDataResult<Customer> GetByID(int id)
         {
-            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.ID == id));
+            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.CustomerID == id));
         }
 
         public IDataResult<List<Customer>> GetAll()
@@ -48,6 +48,11 @@ namespace Business.Concrete
         {
             _customerDal.Update(customer);
             return new SuccessResult();
+        }
+
+        public IDataResult<CustomerDetailDto> GetDtoByID(int id)
+        {
+            return new SuccessDataResult<CustomerDetailDto>(_customerDal.GetDtoByID(id));
         }
     }
 }

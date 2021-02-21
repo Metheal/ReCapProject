@@ -52,16 +52,15 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-
         public IResult Update(Car car)
         {
             _carDal.Update(car);
             return new SuccessResult();
         }
 
-        public IDataResult<Car> Get(int id)
+        public IDataResult<Car> GetByID(int id)
         {
-            return new SuccessDataResult<Car>(_carDal.Get(c => c.ID == id));
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.CarID == id));
         }
 
         public IDataResult<List<Car>> GetAllByBrandID(int id)
@@ -74,7 +73,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorID == id));
         }
 
-        public IDataResult<List<Car>> GetAllDailyPrice(decimal min, decimal max)
+        public IDataResult<List<Car>> GetAllByDailyPrice(decimal min, decimal max)
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max));
         }
@@ -84,9 +83,17 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ModelYear >= min && c.ModelYear <= max));
         }
 
+        public IDataResult<CarDetailDto> GetDtoByID(int id)
+        {
+            return new SuccessDataResult<CarDetailDto>(_carDal.GetDtoByID(id), Messages.CarDTOListed);
+        }
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
+            if (DateTime.Now.Hour == 8)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>("Sistem bakimda");
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.CarsDTOListed);
         }
     }
 }

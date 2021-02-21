@@ -16,25 +16,25 @@ namespace DataAccess.Concrete.InMemory
         {
             _cars = new List<Car>
             {
-                new Car { ID = 1, BrandID = 1, ColorID = 6, ModelYear = 2019, DailyPrice = 150, Description = "Megane 1.5 dCi" },
-                new Car { ID = 2, BrandID = 2, ColorID = 2, ModelYear = 2018, DailyPrice = 90, Description = "Egea 1.3 Multijet" },
-                new Car { ID = 3, BrandID = 3, ColorID = 3, ModelYear = 2016, DailyPrice = 250, Description = "Jetta 1.4 TSI" },
-                new Car { ID = 4, BrandID = 5, ColorID = 1, ModelYear = 2017, DailyPrice = 300, Description = "Focus 1.5 TDCi" },
-                new Car { ID = 5, BrandID = 6, ColorID = 1, ModelYear = 2021, DailyPrice = 1200, Description = "WRX STI 2.5" }
+                new Car { CarID = 1, BrandID = 1, ColorID = 6, ModelYear = 2019, DailyPrice = 150, Description = "Megane 1.5 dCi" },
+                new Car { CarID = 2, BrandID = 2, ColorID = 2, ModelYear = 2018, DailyPrice = 90, Description = "Egea 1.3 Multijet" },
+                new Car { CarID = 3, BrandID = 3, ColorID = 3, ModelYear = 2016, DailyPrice = 250, Description = "Jetta 1.4 TSI" },
+                new Car { CarID = 4, BrandID = 5, ColorID = 1, ModelYear = 2017, DailyPrice = 300, Description = "Focus 1.5 TDCi" },
+                new Car { CarID = 5, BrandID = 6, ColorID = 1, ModelYear = 2021, DailyPrice = 1200, Description = "WRX STI 2.5" }
             };
         }
 
         public void Add(Car car)
         {
-            var carToAdd = _cars.Find(c => c.ID == car.ID);
+            var carToAdd = _cars.Find(c => c.CarID == car.CarID);
             if (carToAdd == null)
             {
                 _cars.Add(car);
-                Console.WriteLine("A new car added: {0}", car.ID);
+                Console.WriteLine("A new car added: {0}", car.CarID);
             }
             else
             {
-                Console.WriteLine("Error: Car is already in the list or the ID is cannot be used: {0}", car.ID);
+                Console.WriteLine("Error: Car is already in the list or the ID is cannot be used: {0}", car.CarID);
             }
         }
 
@@ -42,7 +42,7 @@ namespace DataAccess.Concrete.InMemory
         {
             Car carToDelete;
 
-            carToDelete = _cars.SingleOrDefault(c=>c.ID==car.ID);
+            carToDelete = _cars.SingleOrDefault(c=>c.CarID==car.CarID);
             _cars.Remove(carToDelete);
         }
 
@@ -50,7 +50,7 @@ namespace DataAccess.Concrete.InMemory
         {
             Car carToDelete;
 
-            carToDelete = _cars.Find(c => c.ID == ID);
+            carToDelete = _cars.Find(c => c.CarID == ID);
             if (carToDelete != null)
             {
                 _cars.Remove(carToDelete);
@@ -79,7 +79,7 @@ namespace DataAccess.Concrete.InMemory
 
         public Car GetByID(int ID)
         {
-            return _cars.Find(c=>c.ID==ID);
+            return _cars.Find(c=>c.CarID==ID);
         }
 
         public List<CarDetailDto> GetCarDetails()
@@ -87,10 +87,15 @@ namespace DataAccess.Concrete.InMemory
             throw new NotImplementedException();
         }
 
+        public CarDetailDto GetDtoByID(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(Car car)
         {
             Car carToUpdate;
-            carToUpdate = _cars.SingleOrDefault(c => c.ID == car.ID);
+            carToUpdate = _cars.SingleOrDefault(c => c.CarID == car.CarID);
             carToUpdate.BrandID = car.BrandID;
             carToUpdate.ColorID = car.ColorID;
             carToUpdate.DailyPrice = car.DailyPrice;

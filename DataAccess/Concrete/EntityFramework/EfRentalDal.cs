@@ -17,14 +17,14 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from r in context.Rentals
                              join c in context.Customers
-                             on r.CustomerID equals c.ID
+                             on r.CustomerID equals c.CustomerID
                              join ca in context.Cars
-                             on r.CarID equals ca.ID
+                             on r.CarID equals ca.CarID
                              join u in context.Users
-                             on c.UserID equals u.ID
+                             on c.UserID equals u.UserID
                              select new RentalDetailDto
                              {
-                                 ID = r.ID,
+                                 RentalID = r.RentalID,
                                  CarName = ca.CarName,
                                  CustomerCompanyName = c.CompanyName,
                                  CustomerEMail = u.EMail,
@@ -34,6 +34,31 @@ namespace DataAccess.Concrete.EntityFramework
                                  ReturnDate = r.ReturnDate
                              };
                 return result.ToList();
+            }
+        }
+        public RentalDetailDto GetDtoByID(int id)
+        {
+            using (RentACarContext context = new RentACarContext())
+            {
+                var result = from r in context.Rentals
+                             join c in context.Customers
+                             on r.CustomerID equals c.CustomerID
+                             join ca in context.Cars
+                             on r.CarID equals ca.CarID
+                             join u in context.Users
+                             on c.UserID equals u.UserID
+                             select new RentalDetailDto
+                             {
+                                 RentalID = r.RentalID,
+                                 CarName = ca.CarName,
+                                 CustomerCompanyName = c.CompanyName,
+                                 CustomerEMail = u.EMail,
+                                 CustomerFirstName = u.FirstName,
+                                 CustomerLastName = u.LastName,
+                                 RentDate = r.RentDate,
+                                 ReturnDate = r.ReturnDate
+                             };
+                return result.SingleOrDefault(r => r.RentalID == id);
             }
         }
     }

@@ -33,7 +33,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Brand>>(_brandDal.GetAll());
         }
 
-        public IDataResult<Brand> Get(int id)
+        public IDataResult<Brand> GetByID(int id)
         {
             return new SuccessDataResult<Brand>(_brandDal.Get(b => b.BrandID == id));
         }

@@ -10,5 +10,6 @@ namespace DataAccess.Abstract
     public interface ICustomerDal : IEntityRepository<Customer>
     {
         List<CustomerDetailDto> GetCustomerDetails();
+        CustomerDetailDto GetDtoByID(int id);
     }
 }

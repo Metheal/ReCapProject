@@ -17,18 +17,37 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from c in context.Customers
                              join u in context.Users
-                             on c.UserID equals u.ID
+                             on c.UserID equals u.UserID
                              select new CustomerDetailDto
                              {
-                                 ID = c.ID,
-                                 UserID = u.ID,
+                                 CustomerID = c.CustomerID,
+                                 UserID = u.UserID,
                                  FirstName = u.FirstName,
                                  LastName = u.LastName,
                                  EMail = u.EMail,
-                                 Password = u.Password,
                                  CompanyName = c.CompanyName
                              };
                 return result.ToList();
+            }
+        }
+
+        public CustomerDetailDto GetDtoByID(int id)
+        {
+            using (RentACarContext context = new RentACarContext())
+            {
+                var result = from c in context.Customers
+                             join u in context.Users
+                             on c.UserID equals u.UserID
+                             select new CustomerDetailDto
+                             {
+                                 CustomerID = c.CustomerID,
+                                 UserID = u.UserID,
+                                 FirstName = u.FirstName,
+                                 LastName = u.LastName,
+                                 EMail = u.EMail,
+                                 CompanyName = c.CompanyName
+                             };
+                return result.SingleOrDefault(c => c.CustomerID == id);
             }
         }
     }

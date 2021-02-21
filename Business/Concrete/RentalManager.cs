@@ -4,6 +4,8 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Collections.Generic;
 using System.Text;
 
@@ -28,9 +30,9 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public IDataResult<Rental> Get(int id)
+        public IDataResult<Rental> GetByID(int id)
         {
-            return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.ID == id));
+            return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.RentalID == id));
         }
 
         public IDataResult<List<Rental>> GetAll()
@@ -47,6 +49,11 @@ namespace Business.Concrete
         {
             _rentalDal.Update(rental);
             return new SuccessResult();
+        }
+
+        public IDataResult<RentalDetailDto> GetDtoByID(int id)
+        {
+            return new SuccessDataResult<RentalDetailDto> (_rentalDal.GetDtoByID(id));
         }
     }
 }

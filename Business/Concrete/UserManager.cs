@@ -28,9 +28,9 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public IDataResult<User> Get(int id)
+        public IDataResult<User> GetByID(int id)
         {
-            return new SuccessDataResult<User>(_userDal.Get(u => u.ID == id));
+            return new SuccessDataResult<User>(_userDal.Get(u => u.UserID == id));
         }
 
         public IDataResult<List<User>> GetAll()

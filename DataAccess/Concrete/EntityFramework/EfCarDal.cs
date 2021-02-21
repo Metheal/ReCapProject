@@ -24,7 +24,7 @@ namespace DataAccess.Concrete.EntityFramework
                              on c.BrandID equals b.BrandID
                              select new CarDetailDto
                              {
-                                 ID = c.ID,
+                                 CarID = c.CarID,
                                  CarName = c.CarName,
                                  BrandName = b.BrandName,
                                  ColorName = cl.ColorName,
@@ -34,6 +34,30 @@ namespace DataAccess.Concrete.EntityFramework
                              };
                 return result.ToList();
                              
+            }
+        }
+
+        public CarDetailDto GetDtoByID(int id)
+        {
+            using (RentACarContext context = new RentACarContext())
+            {
+                var result = from c in context.Cars
+                             join cl in context.Colors
+                             on c.ColorID equals cl.ColorID
+                             join b in context.Brands
+                             on c.BrandID equals b.BrandID
+                             select new CarDetailDto
+                             {
+                                 CarID = c.CarID,
+                                 CarName = c.CarName,
+                                 BrandName = b.BrandName,
+                                 ColorName = cl.ColorName,
+                                 DailyPrice = c.DailyPrice,
+                                 ModelYear = c.ModelYear,
+                                 Description = c.Description
+                             };
+                return result.SingleOrDefault(c => c.CarID == id);
+
             }
         }
     }
