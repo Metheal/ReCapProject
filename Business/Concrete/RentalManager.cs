@@ -8,6 +8,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 using System.Text;
+using Core.CrossCuttingConcerns.Validation;
+using Business.ValidationRules.FluentValidation;
 
 namespace Business.Concrete
 {
@@ -20,6 +22,8 @@ namespace Business.Concrete
         }
         public IResult Add(Rental rental)
         {
+            ValidationTool.Validate(new RentalValidator(), rental);
+
             _rentalDal.Add(rental);
             return new SuccessResult();
         }
