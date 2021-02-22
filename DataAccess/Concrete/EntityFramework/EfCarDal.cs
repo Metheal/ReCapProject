@@ -42,6 +42,7 @@ namespace DataAccess.Concrete.EntityFramework
             using (RentACarContext context = new RentACarContext())
             {
                 var result = from c in context.Cars
+                             where c.CarID == id
                              join cl in context.Colors
                              on c.ColorID equals cl.ColorID
                              join b in context.Brands
@@ -56,7 +57,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  ModelYear = c.ModelYear,
                                  Description = c.Description
                              };
-                return result.SingleOrDefault(c => c.CarID == id);
+                return result.SingleOrDefault();
 
             }
         }

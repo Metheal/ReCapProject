@@ -41,6 +41,7 @@ namespace DataAccess.Concrete.EntityFramework
             using (RentACarContext context = new RentACarContext())
             {
                 var result = from r in context.Rentals
+                             where r.RentalID == id
                              join c in context.Customers
                              on r.CustomerID equals c.CustomerID
                              join ca in context.Cars
@@ -58,7 +59,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  RentDate = r.RentDate,
                                  ReturnDate = r.ReturnDate
                              };
-                return result.SingleOrDefault(r => r.RentalID == id);
+                return result.SingleOrDefault();
             }
         }
     }
