@@ -19,5 +19,10 @@ namespace Core.Utilities.Business
 
             return null;
         }
+
+        public static object Run(IResult result, object chechIfImageIsValid)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

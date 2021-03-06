@@ -1,10 +1,15 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
+using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Helpers;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,37 +20,58 @@ namespace Business.Concrete
     public class CarImageManager : ICarImageService
     {
         ICarImageDal _carImageDal;
-        public CarImageManager(ICarImageDal carImageDal)
+        IHostEnvironment _hostEnvironment;
+        public CarImageManager(ICarImageDal carImageDal, IHostEnvironment hostEnvironment)
         {
             _carImageDal = carImageDal;
+            _hostEnvironment = hostEnvironment;
         }
-
-        public IResult Add(IFormFile formFile, CarImage carImage, string path)
+        
+        [SecuredOperation("carimage.add,admin")]
+        //[ValidationAspect(typeof(ImageValidator))] // didn't work for now so I move on with a temporary solution
+        // I suppose it's because it cannot create an instance of type I gave it. it was IFormFile
+        [ValidationAspect(typeof(CarImageValidator))]
+        public IResult Add(IFormFile formFile, CarImage carImage)
         {
-            var result = BusinessRules.Run(CheckIfCarImageLimitExceeded(carImage));
-
+            var result = BusinessRules.Run(CheckIfCarImageLimitExceeded(carImage), CheckIfImageIsValid(formFile));
+            var imagetype = formFile.ContentType;
             if (result != null)
             {
                 return result;
             }
 
+            var root = _hostEnvironment.ContentRootPath;
+            var wwwroot = Path.Combine(root, "wwwroot");
+            var path = Path.Combine(wwwroot, "Images");
             var fileHelper = FileHelper.WriteFile(formFile, path);
 
             if (!fileHelper.Success)
             {
                 return new ErrorResult(fileHelper.Message);
             }
-            carImage.ImagePath = fileHelper.Message;
+
+            carImage.ImagePath = fileHelper.Data;
             carImage.Date = DateTime.Now;
             _carImageDal.Add(carImage);
 
-            return new SuccessResult($"Car Image eklendi {carImage.ImagePath}");
+            return new SuccessResult($"{Messages.CarImageAdded}: {carImage.ImagePath}");
         }
 
+        [SecuredOperation("carimage.delete,admin")]
         public IResult Delete(CarImage carImage)
         {
+            var root = _hostEnvironment.ContentRootPath;
+            var wwwroot = Path.Combine(root, "wwwroot");
+            var sourcePath = $"{wwwroot}{_carImageDal.Get(ci => ci.CarImageID == carImage.CarImageID).ImagePath}";
+            var fileHelper = FileHelper.DeleteFile(sourcePath);
+
+            if (!fileHelper.Success)
+            {
+                return new ErrorResult(fileHelper.Message);
+            }
+
             _carImageDal.Delete(carImage);
-            return new SuccessResult();
+            return new SuccessResult(Messages.CarImageDeleted);
         }
 
         public IDataResult<CarImage> GetByID(int id)
@@ -58,10 +84,33 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll());
         }
 
-        public IResult Update(IFormFile formfile, CarImage carImage, string path)
+        [SecuredOperation("carimage.update,admin")]
+        [ValidationAspect(typeof(CarImageValidator))]
+        public IResult Update(IFormFile formFile, CarImage carImage)
         {
+            var result = BusinessRules.Run(CheckIfCarImageLimitExceeded(carImage), CheckIfImageIsValid(formFile));
+
+            if (result != null)
+            {
+                return result;
+            }
+
+            var root = _hostEnvironment.ContentRootPath;
+            var wwwroot = Path.Combine(root, "wwwroot");
+            var path = Path.Combine(wwwroot, "Images");
+            var sourcePath = $"{wwwroot}{_carImageDal.Get(ci => ci.CarImageID == carImage.CarImageID).ImagePath}";
+            var fileHelper = FileHelper.UpdateFile(sourcePath, formFile, path);
+
+            if (!fileHelper.Success)
+            {
+                return new ErrorResult(fileHelper.Message);
+            }
+
+            carImage.ImagePath = fileHelper.Data;
+            carImage.Date = DateTime.Now;
             _carImageDal.Update(carImage);
-            return new SuccessResult();
+
+            return new SuccessResult(Messages.CarImageUpdated);
         }
 
 
@@ -77,13 +126,25 @@ namespace Business.Concrete
         }
         private IResult CheckIfCarImageLimitExceeded(CarImage carImage)
         {
-            if (_carImageDal.GetAll(c => c.CarID == carImage.CarID).Count >= 5)
+            var result = _carImageDal.GetAll(c => c.CarID == carImage.CarID).Count;
+            if (result >= 5)
             {
-                return new ErrorResult("Aracin 5ten fazla resmi olamaz");
+                return new ErrorResult(Messages.CarImageLimitExceeded);
             }
 
             return new SuccessResult();
         }
+
+        private IResult CheckIfImageIsValid(IFormFile formFile)
+        {
+            var result = formFile.ContentType.ToString().StartsWith("image");
+            if (!result)
+            {
+                return new ErrorResult("Lutfen gorsel yukleyiniz");
+            }
+            return new SuccessResult();
+        }
+
 
     }
 }

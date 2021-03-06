@@ -10,7 +10,7 @@ namespace Core.Utilities.Helpers
 {
     public class FileHelper
     {
-        public static IResult WriteFile(IFormFile formFile, string path)
+        public static IDataResult<String> WriteFile(IFormFile formFile, string path)
         {
             var result = FileNameCreator(formFile, path);
             var fullPath = Path.Combine(path, result.fileName);
@@ -31,21 +31,22 @@ namespace Core.Utilities.Helpers
             }
             catch (Exception exception)
             {
-                return new ErrorResult(exception.Message);
+                return new ErrorDataResult<String>(exception.Message);
             }
 
-            return new SuccessResult(result.pathToSave);
+            return new SuccessDataResult<String>(result.pathToSave, "File saved successfully");
         }
 
-        public static string UpdateFile(string sourcePath, IFormFile formFile, string path)
+        public static IDataResult<String> UpdateFile(string sourcePath, IFormFile formFile, string path)
         {
             var result = FileNameCreator(formFile, path);
+            var fullPath = Path.Combine(path, result.fileName);
 
             try
             {
                 if (sourcePath.Length > 0)
                 {
-                    using (var stream = new FileStream(result.pathToSave, FileMode.Create))
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
                     {
                         formFile.CopyTo(stream);
                     }
@@ -55,10 +56,10 @@ namespace Core.Utilities.Helpers
             }
             catch (Exception excepiton)
             {
-                return excepiton.Message;
+                return new ErrorDataResult<String>(excepiton.Message);
             }
 
-            return result.pathToSave;
+            return new SuccessDataResult<String>(result.pathToSave, "File updated successfully");
         }
 
         public static IResult DeleteFile(string path)

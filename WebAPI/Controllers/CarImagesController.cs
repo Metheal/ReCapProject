@@ -17,12 +17,10 @@ namespace WebAPI.Controllers
     public class CarImagesController : ControllerBase
     {
         ICarImageService _carImageService;
-        IWebHostEnvironment _webHostEnvironment;
 
-        public CarImagesController(ICarImageService carImageService, IWebHostEnvironment webHostEnvironment)
+        public CarImagesController(ICarImageService carImageService)
         {
             _carImageService = carImageService;
-            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet("getall")]
@@ -50,9 +48,7 @@ namespace WebAPI.Controllers
         [HttpPost("add")]
         public IActionResult Add([FromForm (Name = "image")] IFormFile formFile, [FromForm] CarImage carImage)
         {
-            var root = _webHostEnvironment.WebRootPath;
-            var path = Path.Combine(root, "Images");
-            var result = _carImageService.Add(formFile, carImage, path);
+            var result = _carImageService.Add(formFile, carImage);
             if (result.Success)
             {
                 return Ok(result);
@@ -63,9 +59,7 @@ namespace WebAPI.Controllers
         [HttpPost("update")]
         public IActionResult Update([FromForm(Name = "image")] IFormFile formFile, [FromForm] CarImage carImage)
         {
-            var root = _webHostEnvironment.WebRootPath;
-            var path = Path.Combine(root, "Images"); 
-            var result = _carImageService.Update(formFile, carImage, path);
+            var result = _carImageService.Update(formFile, carImage);
             if (result.Success)
             {
                 return Ok(result);
@@ -87,8 +81,6 @@ namespace WebAPI.Controllers
         [HttpGet("getimagesbycarid")]
         public IActionResult GetImagesByCarID(int id)
         {
-            var root = _webHostEnvironment.WebRootPath;
-            var path = Path.Combine(root, "Images");
             var result = _carImageService.GetImagesByCarID(id);
 
             if (result.Success)
