@@ -2,6 +2,7 @@
 using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Helpers;
@@ -74,11 +75,13 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarImageDeleted);
         }
 
+        [CacheAspect]
         public IDataResult<CarImage> GetByID(int id)
         {
             return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.CarImageID == id));
         }
 
+        [CacheAspect]
         public IDataResult<List<CarImage>> GetAll()
         {
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll());
@@ -86,6 +89,7 @@ namespace Business.Concrete
 
         [SecuredOperation("carimage.update,admin")]
         [ValidationAspect(typeof(CarImageValidator))]
+        [CacheRemoveAspect("ICarImageService.Get")]
         public IResult Update(IFormFile formFile, CarImage carImage)
         {
             var result = BusinessRules.Run(CheckIfCarImageLimitExceeded(carImage), CheckIfImageIsValid(formFile));
