@@ -144,7 +144,7 @@ namespace Business.Concrete
             var result = formFile.ContentType.ToString().StartsWith("image");
             if (!result)
             {
-                return new ErrorResult("Lutfen gorsel yukleyiniz");
+                return new ErrorResult(Messages.NotAnImage);
             }
             return new SuccessResult();
         }

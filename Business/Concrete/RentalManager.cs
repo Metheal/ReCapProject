@@ -35,16 +35,19 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        [SecuredOperation("rental.list, admin")]
         public IDataResult<Rental> GetByID(int id)
         {
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.RentalID == id));
         }
 
+        [SecuredOperation("rental.list, admin")]
         public IDataResult<List<Rental>> GetAll()
         {
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll());
         }
 
+        [SecuredOperation("rental.list, admin")]
         public IDataResult<List<RentalDetailDto>> GetRentalDetails()
         {
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails());
@@ -58,6 +61,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        [SecuredOperation("rental.list, admin")]
         public IDataResult<RentalDetailDto> GetDtoByID(int id)
         {
             return new SuccessDataResult<RentalDetailDto> (_rentalDal.GetDtoByID(id));

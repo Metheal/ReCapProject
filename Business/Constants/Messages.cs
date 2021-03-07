@@ -45,6 +45,7 @@ namespace Business.Constants
         public static string CarImageUpdated = "Arac resmi guncellendi";
         public static string CarImageAdded = "Arac resmi eklendi";
         public static string CarImageDeleted = "Arac resmi silindi";
+        public static string NotAnImage = "Lutfen gorsel yukleyiniz";
 
         public static string AuthorizationDenied = "Yetkiniz yok";
         public static string UserRegistered = "Kullanici basariyla kaydedildi";

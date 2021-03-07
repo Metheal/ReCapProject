@@ -36,16 +36,19 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        [SecuredOperation("admin")]
         public IDataResult<Customer> GetByID(int id)
         {
             return new SuccessDataResult<Customer>(_customerDal.Get(c => c.CustomerID == id));
         }
 
+        [SecuredOperation("admin")]
         public IDataResult<List<Customer>> GetAll()
         {
             return new SuccessDataResult<List<Customer>>(_customerDal.GetAll());
         }
 
+        [SecuredOperation("admin")]
         public IDataResult<List<CustomerDetailDto>> GetCustomerDetails()
         {
             return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetails());
@@ -59,6 +62,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        [SecuredOperation("admin")]
         public IDataResult<CustomerDetailDto> GetDtoByID(int id)
         {
             return new SuccessDataResult<CustomerDetailDto>(_customerDal.GetDtoByID(id));

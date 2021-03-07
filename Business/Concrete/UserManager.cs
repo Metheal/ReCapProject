@@ -33,11 +33,13 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        [SecuredOperation("admin")]
         public IDataResult<User> GetByID(int id)
         {
             return new SuccessDataResult<User>(_userDal.Get(u => u.UserID == id));
         }
 
+        [SecuredOperation("admin")]
         public IDataResult<List<User>> GetAll()
         {
             return new SuccessDataResult<List<User>>(_userDal.GetAll());
