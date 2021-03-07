@@ -22,9 +22,9 @@ namespace DataAccess.Concrete.EntityFramework
                              on c.ColorID equals cl.ColorID
                              join b in context.Brands
                              on c.BrandID equals b.BrandID
-                             let images = (from ci in context.CarImages
-                                           where ci.CarID == c.CarID
-                                           select ci.ImagePath).ToList()
+                             //let images = (from ci in context.CarImages //got a better solution for this at CarManager.cs
+                             //              where ci.CarID == c.CarID
+                             //              select ci.ImagePath).ToList()
 
                              select new CarDetailDto
                              {
@@ -32,7 +32,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  CarName = c.CarName,
                                  BrandName = b.BrandName,
                                  ColorName = cl.ColorName,
-                                 ImagePaths = images,
+                                 //ImagePaths = images,
                                  DailyPrice = c.DailyPrice,
                                  ModelYear = c.ModelYear,
                                  Description = c.Description
@@ -52,16 +52,16 @@ namespace DataAccess.Concrete.EntityFramework
                              on c.ColorID equals cl.ColorID
                              join b in context.Brands
                              on c.BrandID equals b.BrandID
-                             let images = (from ci in context.CarImages
-                                           where ci.CarID == c.CarID
-                                           select ci.ImagePath).ToList()
+                             //let images = (from ci in context.CarImages
+                             //              where ci.CarID == c.CarID
+                             //              select ci.ImagePath).ToList()
                              select new CarDetailDto
                              {
                                  CarID = c.CarID,
                                  CarName = c.CarName,
                                  BrandName = b.BrandName,
                                  ColorName = cl.ColorName,
-                                 ImagePaths = images,
+                                 //ImagePaths = images,
                                  DailyPrice = c.DailyPrice,
                                  ModelYear = c.ModelYear,
                                  Description = c.Description

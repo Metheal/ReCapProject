@@ -12,6 +12,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Business.Concrete
@@ -19,10 +20,12 @@ namespace Business.Concrete
     public class CarManager : ICarService
     {
         ICarDal _carDal;
+        ICarImageService _carImageService;
 
-        public CarManager(ICarDal carDal)
+        public CarManager(ICarDal carDal, ICarImageService carImageService)
         {
             _carDal = carDal;
+            _carImageService = carImageService;
         }
 
         [CacheAspect]
@@ -85,11 +88,18 @@ namespace Business.Concrete
         [CacheAspect]
         public IDataResult<CarDetailDto> GetDtoByID(int id)
         {
-            return new SuccessDataResult<CarDetailDto>(_carDal.GetDtoByID(id), Messages.CarDTOListed);
+            var result = _carDal.GetDtoByID(id);
+            result.ImagePaths = _carImageService.GetImagesByCarID(id).Data.Select(c => c.ImagePath).ToList();
+            return new SuccessDataResult<CarDetailDto>(result, Messages.CarDTOListed);
         }
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.CarsDTOListed);
+            var result = _carDal.GetCarDetails();
+            foreach (var item in result)
+            {
+                item.ImagePaths = _carImageService.GetImagesByCarID(item.CarID).Data.Select(c => c.ImagePath).ToList();
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(result, Messages.CarsDTOListed);
         }
     }
 }
