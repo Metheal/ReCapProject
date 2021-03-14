@@ -41,13 +41,13 @@ namespace Business.Concrete
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.RentalID == id));
         }
 
-        [SecuredOperation("rental.list, admin")]
+        //[SecuredOperation("rental.list, admin")]
         public IDataResult<List<Rental>> GetAll()
         {
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll());
         }
 
-        [SecuredOperation("rental.list, admin")]
+        //[SecuredOperation("rental.list, admin")]
         public IDataResult<List<RentalDetailDto>> GetRentalDetails()
         {
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails());

@@ -39,7 +39,7 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(_userDal.Get(u => u.UserID == id));
         }
 
-        [SecuredOperation("admin")]
+        //[SecuredOperation("admin")]
         public IDataResult<List<User>> GetAll()
         {
             return new SuccessDataResult<List<User>>(_userDal.GetAll());

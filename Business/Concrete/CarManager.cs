@@ -101,5 +101,45 @@ namespace Business.Concrete
             }
             return new SuccessDataResult<List<CarDetailDto>>(result, Messages.CarsDTOListed);
         }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByBrandName(string name)
+        {
+            var result = _carDal.GetCarDetails(c => c.BrandName == name);
+            foreach (var item in result)
+            {
+                item.ImagePaths = _carImageService.GetImagesByCarID(item.CarID).Data.Select(c => c.ImagePath).ToList();
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(result, Messages.CarsDTOListed);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByColorName(string name)
+        {
+            var result = _carDal.GetCarDetails(c => c.ColorName == name);
+            foreach (var item in result)
+            {
+                item.ImagePaths = _carImageService.GetImagesByCarID(item.CarID).Data.Select(c => c.ImagePath).ToList();
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(result, Messages.CarsDTOListed);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByDailyPrice(decimal min, decimal max)
+        {
+            var result = _carDal.GetCarDetails(c => c.DailyPrice >= min && c.DailyPrice <= max);
+            foreach (var item in result)
+            {
+                item.ImagePaths = _carImageService.GetImagesByCarID(item.CarID).Data.Select(c => c.ImagePath).ToList();
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(result, Messages.CarsDTOListed);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByModelYear(short min, short max)
+        {
+            var result = _carDal.GetCarDetails(c => c.ModelYear >= min && c.ModelYear <= max);
+            foreach (var item in result)
+            {
+                item.ImagePaths = _carImageService.GetImagesByCarID(item.CarID).Data.Select(c => c.ImagePath).ToList();
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(result, Messages.CarsDTOListed);;
+        }
     }
 }

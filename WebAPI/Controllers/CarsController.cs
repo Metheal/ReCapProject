@@ -78,10 +78,32 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getcardetailsbybrandname")]
+        public IActionResult GetCarDetailsByBrandName(string name)
+        {
+            var result = _carService.GetCarDetailsByBrandName(name);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpGet("getallbycolorid")]
-        public IActionResult GetAllByColorID(int id)
+        public IActionResult GetAllByColorName(int id)
         {
             var result = _carService.GetAllByColorID(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getcardetailsbycolorname")]
+        public IActionResult GetCarDetailsByColorName(string name)
+        {
+            var result = _carService.GetCarDetailsByColorName(name);
             if (result.Success)
             {
                 return Ok(result);
@@ -100,10 +122,32 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getallbydailyprice")]
+        [HttpGet("getcardetailsbydailyprice")]
+        public IActionResult GetCarDetailsByDailyPrice(decimal min, decimal max)
+        {
+            var result = _carService.GetCarDetailsByDailyPrice(min, max);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getallbymodelyear")]
         public IActionResult GetAllByModelYear(short min, short max)
         {
             var result = _carService.GetAllByModelYear(min, max);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getcardetailsbymodelyear")]
+        public IActionResult GetCarDetailsByModelYear(short min, short max)
+        {
+            var result = _carService.GetCarDetailsByModelYear(min, max);
             if (result.Success)
             {
                 return Ok(result);
