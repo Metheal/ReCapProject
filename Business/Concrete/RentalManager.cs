@@ -15,17 +15,19 @@ namespace Business.Concrete
     public class RentalManager : IRentalService
     {
         IRentalDal _rentalDal;
-        public RentalManager(IRentalDal rentalDal)
+        ICarService _carService;
+        public RentalManager(IRentalDal rentalDal, ICarService carService)
         {
             _rentalDal = rentalDal;
+            _carService = carService;
         }
 
-        [SecuredOperation("rental.add, admin")]
+        //[SecuredOperation("rental.add, admin")]
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
             _rentalDal.Add(rental);
-            return new SuccessResult();
+            return new SuccessResult(rental.RentalID.ToString());
         }
 
         [SecuredOperation("rental.delete, admin")]
@@ -35,7 +37,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        [SecuredOperation("rental.list, admin")]
+        //[SecuredOperation("rental.list, admin")]
         public IDataResult<Rental> GetByID(int id)
         {
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.RentalID == id));
@@ -64,7 +66,33 @@ namespace Business.Concrete
         [SecuredOperation("rental.list, admin")]
         public IDataResult<RentalDetailDto> GetDtoByID(int id)
         {
-            return new SuccessDataResult<RentalDetailDto> (_rentalDal.GetDtoByID(id));
+            return new SuccessDataResult<RentalDetailDto>(_rentalDal.GetDtoByID(id));
+        }
+
+        // this one is to be called when a user wants to rent a car
+        // checks if the car is available at a given time
+        // returns null if no matches
+        // better method could be possible to write but it works for now
+        public IDataResult<List<Rental>> GetSingleByCarID(int carID, DateTime rentDate, DateTime returnDate)
+        {
+            return new SuccessDataResult<List<Rental>>(
+                _rentalDal.GetAll(
+                r => r.CarID == carID &&
+                ((r.RentDate <= rentDate && r.RentDate <= returnDate && r.ReturnDate >= rentDate && r.ReturnDate >= returnDate) ||
+                (r.RentDate >= rentDate && r.RentDate <= returnDate) ||
+                (r.ReturnDate >= rentDate && r.ReturnDate <= returnDate) ||
+                (r.RentDate >= rentDate && r.RentDate <= returnDate) ||
+                r.ReturnDate == null)
+                ));
+        }
+
+        public IDataResult<decimal> GetTotalAmount(int id)
+        {
+            var rental = _rentalDal.Get(r => r.RentalID == id);
+            var car = _carService.GetByID(rental.CarID);
+            var days = (rental.ReturnDate.GetValueOrDefault() - rental.RentDate).Days;
+            var totalAmount = days * car.Data.DailyPrice;
+            return new SuccessDataResult<decimal>(totalAmount, "");
         }
     }
 }

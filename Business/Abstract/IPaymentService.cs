@@ -1,0 +1,19 @@
+﻿using Core.Utilities.Results;
+using Entities.Concrete;
+using Entities.DTOs;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Business.Abstract
+{
+    public interface IPaymentService
+    {
+        IDataResult<List<Payment>> GetAll();
+        IDataResult<Payment> Get(int id);
+        IDataResult<List<Payment>> GetAllByRentalID(int id);
+        IResult Add(Payment payment);
+        IResult Update(Payment payment);
+        IResult Delete(Payment payment);
+    }
+}

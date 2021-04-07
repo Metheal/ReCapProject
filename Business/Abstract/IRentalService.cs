@@ -11,10 +11,12 @@ namespace Business.Abstract
     {
         IDataResult<List<Rental>> GetAll();
         IDataResult<Rental> GetByID(int id);
+        IDataResult<List<Rental>> GetSingleByCarID(int carID, DateTime rentDate, DateTime returnDate);
         IDataResult<List<RentalDetailDto>> GetRentalDetails();
         IDataResult<RentalDetailDto> GetDtoByID(int id);
         IResult Add(Rental rental);
         IResult Update(Rental rental);
         IResult Delete(Rental rental);
+        IDataResult<decimal> GetTotalAmount(int id);
     }
 }

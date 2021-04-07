@@ -96,5 +96,17 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
+        [HttpGet("getsinglebycarid")]
+        public IActionResult GetSingleByCarID(int carID, DateTime rentDate, DateTime returnDate)
+        {
+
+            var result = _rentalService.GetSingleByCarID(carID, rentDate, returnDate);
+            if (result.Success)
+            {
+                return Ok(result.Data.ToList().Count > 0);
+            }
+            return BadRequest(result);
+        }
     }
 }
