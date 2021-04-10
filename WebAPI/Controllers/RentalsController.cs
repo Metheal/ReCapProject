@@ -28,6 +28,18 @@ namespace WebAPI.Controllers
             {
                 return Ok(result);
             }
+            
+            return BadRequest(result);
+        }
+
+        [HttpGet("getallbycustomerid")]
+        public IActionResult GetAllByCustomerID(int id)
+        {
+            var result = _rentalService.GetAllByCustomerID(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
             return BadRequest(result);
         }
 

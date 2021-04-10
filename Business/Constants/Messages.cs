@@ -54,5 +54,7 @@ namespace Business.Constants
         public static string SuccessfulLogin = "Sisteme giris basarili";
         public static string UserAlreadyExists = "Bu kullanici adi kullaniliyor";
         public static string AccessTokenCreated = "Access Token basariyla olusturuldu";
+
+        public static string NotEnoughFindexScore = "Musterinin yeterli findex puani yok";
     }
 }

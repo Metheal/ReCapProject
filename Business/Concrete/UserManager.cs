@@ -26,26 +26,26 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        [SecuredOperation("user.delete, admin")]
+        [SecuredOperation("user.delete,admin")]
         public IResult Delete(User user)
         {
             _userDal.Delete(user);
             return new SuccessResult();
         }
 
-        [SecuredOperation("admin")]
+        //[SecuredOperation("admin")]
         public IDataResult<User> GetByID(int id)
         {
             return new SuccessDataResult<User>(_userDal.Get(u => u.UserID == id));
         }
 
-        //[SecuredOperation("admin")]
+        [SecuredOperation("admin")]
         public IDataResult<List<User>> GetAll()
         {
             return new SuccessDataResult<List<User>>(_userDal.GetAll());
         }
 
-        [SecuredOperation("user.update, admin")]
+        [SecuredOperation("user.update,admin")]
         [ValidationAspect(typeof(UserValidator))]
         public IResult Update(User user)
         {

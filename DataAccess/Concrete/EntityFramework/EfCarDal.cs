@@ -35,7 +35,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  //ImagePaths = images,
                                  DailyPrice = c.DailyPrice,
                                  ModelYear = c.ModelYear,
-                                 Description = c.Description
+                                 Description = c.Description,
+                                 FindexScore = c.FindexScore
                              };
                 return filter == null ? result.ToList() : result.Where(filter).ToList();
 
@@ -66,7 +67,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  //ImagePaths = images,
                                  DailyPrice = c.DailyPrice,
                                  ModelYear = c.ModelYear,
-                                 Description = c.Description
+                                 Description = c.Description,
+                                 FindexScore = c.FindexScore
                              };
                 return result.SingleOrDefault();
 

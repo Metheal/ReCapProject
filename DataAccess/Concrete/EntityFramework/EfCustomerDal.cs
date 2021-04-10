@@ -45,7 +45,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  FirstName = u.FirstName,
                                  LastName = u.LastName,
                                  EMail = u.EMail,
-                                 CompanyName = c.CompanyName
+                                 CompanyName = c.CompanyName,
+                                 FindexScore = c.FindexScore
                              };
                 return result.SingleOrDefault(c => c.CustomerID == id);
             }

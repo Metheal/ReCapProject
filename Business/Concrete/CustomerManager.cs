@@ -20,16 +20,17 @@ namespace Business.Concrete
             _customerDal = customerDal;
         }
 
-        [SecuredOperation("customer.add, admin")]
+        //[SecuredOperation("customer.add,admin")]
         [ValidationAspect(typeof(CustomerValidator))]
         public IResult Add(Customer customer)
         {
+            customer.FindexScore = 0;
             _customerDal.Add(customer);
             return new SuccessResult();
         }
 
 
-        [SecuredOperation("customer.delete, admin")]
+        [SecuredOperation("customer.delete,admin")]
         public IResult Delete(Customer customer)
         {
             _customerDal.Delete(customer);
@@ -42,7 +43,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Customer>(_customerDal.Get(c => c.CustomerID == id));
         }
 
-        //[SecuredOperation("admin")]
+        [SecuredOperation("admin")]
         public IDataResult<List<Customer>> GetAll()
         {
             return new SuccessDataResult<List<Customer>>(_customerDal.GetAll());
@@ -54,7 +55,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetails());
         }
 
-        [SecuredOperation("customer.update, admin")]
+        [SecuredOperation("customer.update,admin")]
         [ValidationAspect(typeof(CustomerValidator))]
         public IResult Update(Customer customer)
         {
@@ -66,6 +67,11 @@ namespace Business.Concrete
         public IDataResult<CustomerDetailDto> GetDtoByID(int id)
         {
             return new SuccessDataResult<CustomerDetailDto>(_customerDal.GetDtoByID(id));
+        }
+
+        public IDataResult<Customer> GetByUserID(int id)
+        {
+            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.UserID == id));
         }
     }
 }

@@ -92,7 +92,7 @@ namespace Business.Concrete
         [CacheRemoveAspect("ICarImageService.Get")]
         public IResult Update(IFormFile formFile, CarImage carImage)
         {
-            var result = BusinessRules.Run(CheckIfCarImageLimitExceeded(carImage), CheckIfImageIsValid(formFile));
+            var result = BusinessRules.Run(CheckIfImageIsValid(formFile));
 
             if (result != null)
             {
