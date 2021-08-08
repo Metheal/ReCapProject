@@ -45,10 +45,14 @@ namespace Business.Concrete
             return new SuccessDataResult<List<User>>(_userDal.GetAll());
         }
 
-        [SecuredOperation("user.update,admin")]
+        //[SecuredOperation("user.update,admin")]
         [ValidationAspect(typeof(UserValidator))]
         public IResult Update(User user)
         {
+            var result = GetByID(user.UserID);
+            user.Status = result.Data.Status;
+            user.PasswordHash = result.Data.PasswordHash;
+            user.PasswordSalt = result.Data.PasswordSalt;
             _userDal.Update(user);
             return new SuccessResult();
         }

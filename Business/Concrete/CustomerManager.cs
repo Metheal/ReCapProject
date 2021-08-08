@@ -37,7 +37,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        [SecuredOperation("admin")]
+        //[SecuredOperation("admin")]
         public IDataResult<Customer> GetByID(int id)
         {
             return new SuccessDataResult<Customer>(_customerDal.Get(c => c.CustomerID == id));
@@ -55,7 +55,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetails());
         }
 
-        [SecuredOperation("customer.update,admin")]
+        //[SecuredOperation("customer.update,admin")]
         [ValidationAspect(typeof(CustomerValidator))]
         public IResult Update(Customer customer)
         {
